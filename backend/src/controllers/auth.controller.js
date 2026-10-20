@@ -13,6 +13,9 @@ async function registerUser(req, res){
 
     const user = await userModel.create({name, email, password: await bcrypt.hash(password, 10)});
 
+    const token = jwt.sign({id:user._id}, process.env.JWT_SECRET);
+    res.cookie('token', token);
+
     res.status(201).json({
         message: "User registered successfully", user
     })
@@ -28,6 +31,9 @@ async function loginUser(req, res){
             message: "Invalid credentials"
         })
     }
+
+    const token = jwt.sign({_id:user._id}, process.env.JWT_SECRET);
+    res.cookie('token', token);
 
     res.status(200).json({
         message: "Login successful"
