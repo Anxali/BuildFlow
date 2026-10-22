@@ -1,7 +1,7 @@
 const workspaceModel = require('../models/workspace.model');
 
 async function createWorkspace(req, res) {
-    const {name, description, owner, members} = req.body;
+    const {name, description, members} = req.body;
 
     if(!name){
         return res.status(400).json({
@@ -51,7 +51,65 @@ async function deleteWorkspace(req, res){
     })
 }
 
+async function getAllWorkspaces(req, res){
+    const allWorkspaces = await workspaceModel.find();
+    res.status(200).json({
+        message: "Workspaces fetched successfully",
+        workspaces: allWorkspaces
+    })
+}
+
+async function getWorkspaceByName(req, res){
+    const workspaceName = req.params.name;
+
+    if(!workspaceName){
+        return res.status(400).json({
+            message: "Name is required"
+        })
+    }
+
+    const workspace = await workspaceModel.findOne({name: workspaceName});
+
+    if(!workspace){
+        return res.status(404).json({
+            message: "Workspace not found"
+        })
+    }
+
+    res.status(200).json({
+        message: "Workspace fetched successfully",
+        workspace
+    })
+}
+
+async function updateWorkspace(req, res){
+    const workspaceId = req.params.id;
+
+    if(!workspaceId){
+        return res.status(400).json({
+            message: "Workspace ID is required"
+        })
+    }
+
+    const workspace = await workspaceModel.findOneAndUpdate({_id: workspaceId}, req.body, {new: true, runValidators: true});
+
+    if(!workspace){
+        return res.status(404).json({
+            message: "Workspace not found"
+        })
+    }
+    
+    res.status(200).json({
+        message: "Workspace updated successfully",
+        workspace
+    })
+
+}
+
 module.exports = {
     createWorkspace,
     deleteWorkspace,
+    getAllWorkspaces,
+    getWorkspaceByName,
+    updateWorkspace
 }
