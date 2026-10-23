@@ -112,10 +112,30 @@ async function updateWorkspace(req, res){
 
 }
 
+async function getMyWorkspaces(req, res){
+    const userId = req.user._id;
+
+    if(!userId){
+        return res.status(400).json({
+            message: "User ID is required"
+        })
+    }
+
+    const myWorkspaces = await workspaceModel.find({owner: userId});
+
+    res.status(200).json({
+        message: "My workspaces fetched successfully",
+        workspaces: myWorkspaces
+    })
+
+
+}
+
 module.exports = {
     createWorkspace,
     deleteWorkspace,
     getAllWorkspaces,
     getWorkspaceByName,
-    updateWorkspace
+    updateWorkspace,
+    getMyWorkspaces
 }
