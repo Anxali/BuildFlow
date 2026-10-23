@@ -15,12 +15,12 @@ async function createWorkspace(req, res) {
         })
     }
 
+
     const workspace = await workspaceModel.create({
         name,
         description,
-        owner,
+        owner:req.user._id,
         members,
-        createdBy: req.user._id,
         createdAt: new Date(),
         updatedAt: new Date()
     })
@@ -88,6 +88,12 @@ async function updateWorkspace(req, res){
     if(!workspaceId){
         return res.status(400).json({
             message: "Workspace ID is required"
+        })
+    }
+
+    if(req.user._id.toString() !== req.body.owner){
+        return res.status(403).json({
+            message: "You are not authorized to update this workspace"
         })
     }
 

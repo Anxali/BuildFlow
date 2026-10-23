@@ -32,7 +32,7 @@ async function loginUser(req, res){
         })
     }
 
-    const token = jwt.sign({_id:user._id}, process.env.JWT_SECRET);
+    const token = jwt.sign({id:user._id}, process.env.JWT_SECRET);
     res.cookie('token', token);
 
     res.status(200).json({
@@ -40,7 +40,15 @@ async function loginUser(req, res){
     })
 }
 
+async function logoutUser(req,res){
+    res.clearCookie('token');
+    res.status(200).json({
+        message: "Logout successful"
+    })
+}
+
 module.exports = {
     registerUser,
-    loginUser
+    loginUser,
+    logoutUser
 };
