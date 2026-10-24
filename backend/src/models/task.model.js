@@ -38,6 +38,14 @@ const taskSchema = new mongoose.Schema({
     createdBy: {
         type: mongoose.Schema.ObjectId,
         ref: 'User'
+    },
+
+    priority: {
+        type: String,
+        enum: ['Low', 'Medium', 'High'],
+        default: 'Low'
     }
     
 })
+
+module.exports = mongoose.model('Task', taskSchema)

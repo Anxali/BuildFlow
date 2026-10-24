@@ -2,9 +2,9 @@ const express = require("express");
 const authRoutes = require('./routes/auth.routes');
 const workspaceRoutes = require('./routes/workspace.routes');
 const projectRoutes = require('./routes/project.routes');
+const taskRoutes = require('./routes/task.routes')
 const cookieParser = require('cookie-parser');
 const authMiddleware = require('./middlewares/auth.middleware');
-
 
 const app = express();
 
@@ -14,5 +14,6 @@ app.use(cookieParser());
 app.use('/api/auth', authRoutes);
 app.use('/api/workspace', authMiddleware, workspaceRoutes);
 app.use('/api/project', authMiddleware, projectRoutes);
+app.use('/api/task', authMiddleware, taskRoutes)
 
 module.exports = app;
