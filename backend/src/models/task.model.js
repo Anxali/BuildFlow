@@ -25,6 +25,11 @@ const taskSchema = new mongoose.Schema({
             createdAt: {
                 type: Date,
                 default: Date.now()
+            },
+
+            taskId:{
+                type: mongoose.Schema.ObjectId,
+                ref: 'Task'
             }
         }
     ],
@@ -40,10 +45,20 @@ const taskSchema = new mongoose.Schema({
         ref: 'User'
     },
 
+    createdAt: {
+        type: Date,
+        default: Date.now()
+    },
+
     priority: {
         type: String,
         enum: ['Low', 'Medium', 'High'],
         default: 'Low'
+    },
+
+    workspace: {
+        type: mongoose.Schema.ObjectId,
+        reference: 'Workspace'
     }
     
 })

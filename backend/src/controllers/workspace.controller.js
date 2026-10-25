@@ -15,7 +15,6 @@ async function createWorkspace(req, res) {
         })
     }
 
-
     const workspace = await workspaceModel.create({
         name,
         description,
@@ -122,6 +121,12 @@ async function getMyWorkspaces(req, res){
     }
 
     const myWorkspaces = await workspaceModel.find({owner: userId});
+
+    if(!myWorkspaces){
+        res.status(200).json({
+            message: 'No workspaces found'
+        })
+    }
 
     res.status(200).json({
         message: "My workspaces fetched successfully",

@@ -10,5 +10,4 @@ router.get('/get/:name', getProjectByName);
 router.get('/get/workspace/:workspaceId', getProjectByWorkspace);
 router.patch('/update/:id', updateProject);
 
-
 module.exports = router;
