@@ -23,7 +23,7 @@ async function createWorkspace(req, res) {
         createdAt: new Date(),
         updatedAt: new Date()
     })
-    res.status(201).json({
+    return res.status(201).json({
         message: "Workspace created successfully", workspace
     })
 }
@@ -45,14 +45,14 @@ async function deleteWorkspace(req, res){
         })
     }
 
-    res.status(200).json({
+    return res.status(200).json({
         message: "Workspace deleted successfully"
     })
 }
 
 async function getAllWorkspaces(req, res){
     const allWorkspaces = await workspaceModel.find();
-    res.status(200).json({
+    return res.status(200).json({
         message: "Workspaces fetched successfully",
         workspaces: allWorkspaces
     })
@@ -75,7 +75,7 @@ async function getWorkspaceByName(req, res){
         })
     }
 
-    res.status(200).json({
+    return res.status(200).json({
         message: "Workspace fetched successfully",
         workspace
     })
@@ -104,7 +104,7 @@ async function updateWorkspace(req, res){
         })
     }
     
-    res.status(200).json({
+    return res.status(200).json({
         message: "Workspace updated successfully",
         workspace
     })
@@ -123,12 +123,12 @@ async function getMyWorkspaces(req, res){
     const myWorkspaces = await workspaceModel.find({owner: userId});
 
     if(!myWorkspaces){
-        res.status(200).json({
+        return res.status(200).json({
             message: 'No workspaces found'
         })
     }
 
-    res.status(200).json({
+    return res.status(200).json({
         message: "My workspaces fetched successfully",
         workspaces: myWorkspaces
     })
