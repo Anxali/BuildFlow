@@ -1,16 +1,16 @@
 const projectModel = require('../models/project.model');
 
 async function createProject(req, res){
-    const {name, description, startDate, dueDate, status} = req.body;
+    const {name, description, workspace, startDate, dueDate, status} = req.body;
 
     if(!name || !description){
-        res.status(400).json({
+        return res.status(400).json({
             message: "Fill the required fields"
         })
     }
 
-    if(projectModel.findOne(name)){
-        res.status(400).json({
+    if(await projectModel.findOne({name: name})){
+        return res.status(400).json({
             message: "project with this name already exists"
         })
     }
@@ -21,11 +21,13 @@ async function createProject(req, res){
         startDate: startDate,
         dueDate: dueDate,
         status: status,
+        workspace: workspace,
+        createdBy: req.user._id,
         updatedAt: Date.now()
     });
 
     res.status(200).json({
-        message: "project created successfully"
+        message: "project created successfully", project
     });
 }
 
@@ -37,7 +39,7 @@ async function deleteProject(req, res){
         })
     }
 
-    const project = await projectModel.findOneAndDelete({name});
+    const project = await projectModel.findOneAndDelete({name:name});
 
     if(!project){
         return res.status(404).json({
@@ -59,19 +61,13 @@ async function updateProject(req, res){
         })
     }
 
-    if(req.user._id.toString() !== req.body.createdBy){
-        res.status(403).json({
+    if(req.user._id.toString() !== (await projectModel.findById(projectId)).createdBy.toString()){
+        return res.status(403).json({
             message: "You are not authorised to edit this project"
         });
     }
 
-    const project = projectModel.findByIdAndUpdate({_id: projectId}, req.body, {new: true, runValidators: true})
-
-    if(!project){
-        res.status(400).json({
-            message: "Project not found"
-        });
-    }
+    const project = await projectModel.findByIdAndUpdate({_id: projectId}, req.body, {new: true, runValidators: true})
 
     res.status(200).json({
         message: "Project updated successfully", project: project
@@ -115,12 +111,12 @@ async function getMyProjects(req, res){
     const userId = req.user._id;
 
     if(!userId){
-        res.status(400).json({
+        return res.status(400).json({
             message: "User ID is required"
         })
     }
 
-    const myProjects = projectModel.findById({createdBy: userId});
+    const myProjects = await projectModel.find({createdBy: userId});
 
     res.status(200).json({
         message: "Projects fetched successfully",
@@ -129,15 +125,15 @@ async function getMyProjects(req, res){
 }
 
 async function getProjectByWorkspace(req, res){
-    const worskspaceId = req.params._id
+    const workspaceId = req.params.workspaceId
 
-    if(!worskspaceId){
-        res.status(400).json({
+    if(!workspaceId){
+        return res.status(400).json({
             message: "Please Specify the workspace"
         })
     }
 
-    const projects = projectModel.findById({workspace: worskspaceId})
+    const projects = await projectModel.find({workspace: workspaceId})
 
     res.status(200).json({
         message: "Projects fetched",

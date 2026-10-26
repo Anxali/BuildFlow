@@ -5,7 +5,7 @@ const { createProject, deleteProject, updateProject, getAllProjects, getMyProjec
 router.put('/create', createProject);
 router.delete('/delete/:name', deleteProject);
 router.get('/getAll', getAllProjects);
-router.get('/get/', getMyProjects);
+router.get('/get', getMyProjects);
 router.get('/get/:name', getProjectByName);
 router.get('/get/workspace/:workspaceId', getProjectByWorkspace);
 router.patch('/update/:id', updateProject);

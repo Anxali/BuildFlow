@@ -1,5 +1,5 @@
 const express = require('express')
-const router = express.router()
+const router = express.Router()
 const {createTask, deleteTask, updateTask, addComment, deleteComment, getAllTask, getTaskById} = require('../controllers/task.controller')
 
 router.put('/create', createTask);
