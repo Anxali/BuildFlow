@@ -2,24 +2,29 @@ const taskModel = require('../models/task.model');
 const taskSchema = require('../models/task.model')
 
 async function createTask(req,res){
-    const {title, description, assignee, comments, status, priority} = req.body;
+    const {title, project, description, assignee, comments, status, priority} = req.body;
 
     if(!title){
-        res.status(400).json({
+        return res.status(400).json({
             message: 'Title is required'
         });
     }
+
+    if(await taskSchema.findOne({title})){return res.status(400).json({message:"task already exists"})}
 
     const task = await taskSchema.create({
         title: title,
         description: description,
         assignee: assignee,
         comments: comments,
+        createdBy: req.user._id,
         status: status,
-        priority: priority
+        priority: priority,
+        project: project
+
     })
 
-    res.status(200).json({
+    return res.status(200).json({
         message: 'Task created successfully',
         task
     })
@@ -29,7 +34,7 @@ async function deleteTask(req,res){
     const taskId = req.params.id;
 
     if(!taskId){
-        res.status(400).json({
+        return res.status(400).json({
             message: 'task id not found'
         })
     }
@@ -37,12 +42,12 @@ async function deleteTask(req,res){
     const task = taskModel.findByIdAndDelete(taskId);
 
     if(!task){
-        res.status(400).json({
+        return res.status(400).json({
             message: 'task not found'
         })
     }
 
-    res.status(200).json({
+    return res.status(200).json({
         message: 'task deleted successfully'
     })
 
@@ -52,41 +57,53 @@ async function updateTask(req,res){
     const taskId = req.params.id;
 
     if(!taskId){
-        res.status(400).json({
+        return res.status(400).json({
             message: 'task id not found'
         })
     }
 
-    const taskUpdate = await taskSchema({_id: taskId}, req.body, {new: true, runValidators: true})
+    const taskUpdate = await taskSchema.findOneAndUpdate({_id: taskId}, req.body, {new: true, runValidators: true})
 
     if(!taskUpdate){
-        res.status(400).json({
+        return res.status(400).json({
             message: 'task not found'
         })
     }
 
-    res.status(200).json({
-        message: 'task updated successfully'
+    return res.status(200).json({
+        message: 'task updated successfully', taskUpdate
     })
 }
 
 async function addComment(req,res){
     const {text} = req.body;
+    const {taskId} = req.params;
 
     if(!text){
-        res.status(400).json({
+        return res.status(400).json({
             message: 'cannot submit empty comment'
         })
     }
 
-    taskSchema.comments.push({text})
+    const task = await taskSchema.findById(taskId)
+
+    if(!task){
+        return res.status(400).json({
+            message:'task not found'
+        })
+    }
+
+    task.comments.push({text, createdBy: req.user._id })
+    await task.save()
+
+    return res.status(201).json({message:'comment added', comments:task.comments})
 }
 
 async function deleteComment(req,res){
     const {taskId, commentId} = req.params;
 
     if(!commentId || !taskId){
-        res.status(400).json({
+        return res.status(400).json({
             message: 'enter id'
         })
     }
@@ -94,41 +111,41 @@ async function deleteComment(req,res){
     const deleteComment = await taskSchema.findOneAndUpdate({_id: taskId}, {$pull: {comments:{_id: commentId}}},{new: true, runValidators: true});
 
     if(!deleteComment){
-        res.status(400).json({
+        return res.status(400).json({
             message:'cannot update the comment'
         })
     }
 
-    res.status(200).json({
+    return res.status(200).json({
         message:'comment deleted successfully'
     })
 }
 
 async function getAllTask(req,res){
-    const allTasks = taskSchema.find();
-    res.status(200).json({
+    const allTasks = await taskSchema.find();
+    return res.status(200).json({
         message: 'all tasks fetched successfully', allTasks
     })
 }
 
-async function getTaskByWorkspace(req,res){
-    const workspaceId = req.params.id;
+async function getTaskByProject(req,res){
+    const projectId = req.params.id;
 
-    if(!workspaceId){
-        res.status(400).json({
-            message: 'workspace id required'
+    if(!projectId){
+        return res.status(400).json({
+            message: 'project id required'
         })
     }
 
-    const tasks = await taskSchema.find({workspace: workspaceId});
+    const tasks = await taskSchema.find({project: projectId});
 
-    if(!tasks){
-        res.status(200).json({
+    if(tasks.length == 0){
+        return res.status(200).json({
             message: 'No task found'
         })
     }
 
-    res.status(200).json({
+    return res.status(200).json({
         message: 'tasks fetched successfully', tasks
     })
 }
@@ -137,7 +154,7 @@ async function getTaskById(req,res){
     const taskId = req.params.id;
 
     if(!taskId){
-        res.status(400).json({
+        return res.status(400).json({
             message: 'task id not found'
         })
     }
@@ -145,12 +162,12 @@ async function getTaskById(req,res){
     const task = await taskSchema({_id: taskId})
     
     if(!task){
-        res.status(200).json({
+        return res.status(200).json({
             message: 'No task found'
         })
     }
 
-    res.status(200).json({
+    return res.status(200).json({
         message: 'task fetched successfully', task
     })
 
@@ -163,6 +180,6 @@ module.exports={
     addComment,
     deleteComment,
     getAllTask,
-    getTaskByWorkspace,
+    getTaskByProject,
     getTaskById
 }

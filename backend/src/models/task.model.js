@@ -13,11 +13,12 @@ const taskSchema = new mongoose.Schema({
 
     assignee: {
         type: mongoose.Schema.ObjectId,
+        ref: 'User'
     },
 
-    comments: [
-        {
-            type: String,
+    comments: [{
+        
+            text: String,
             createdBy: {
                 type: mongoose.Schema.ObjectId,
                 ref: 'User'
@@ -30,8 +31,8 @@ const taskSchema = new mongoose.Schema({
             taskId:{
                 type: mongoose.Schema.ObjectId,
                 ref: 'Task'
-            }
-        }
+            }}
+        
     ],
 
     status: {
@@ -56,9 +57,10 @@ const taskSchema = new mongoose.Schema({
         default: 'Low'
     },
 
-    workspace: {
+    project: {
         type: mongoose.Schema.ObjectId,
-        reference: 'Workspace'
+        reference: 'Project',
+        required:true
     }
     
 })
