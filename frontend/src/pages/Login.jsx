@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
     async function handleLogin(event){
         console.log("handleLogin called");
@@ -18,7 +20,8 @@ function Login() {
             return;
         }
 
-        alert("Login Successful!")
+        //alert("Login Successful!");
+        navigate("/workspaces");
         console.log(data);
 
     
