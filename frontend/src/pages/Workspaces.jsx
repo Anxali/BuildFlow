@@ -25,8 +25,6 @@ function Workspaces() {
                 <WorkspaceCard key={workspace._id}
                 workspace={workspace} />
             ))}
-
-            <button>Logout</button>
         </div>
     );
 }
