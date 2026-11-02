@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import Applayout from './layouts/AppLayout'
 import Workspaces from './pages/Workspaces'
 import Login from './pages/Login'
+import ProtectedRoute from './components/ProtectedRoute'
 
 const App = () => {
   return (
@@ -13,7 +14,9 @@ const App = () => {
         <Route path="/login" element={<Login />} />
 
         <Route element={<Applayout/>}>
-          <Route path="/workspaces" element={<Workspaces/>} />
+          <Route element={<ProtectedRoute/>}>
+            <Route path="/workspaces" element={<Workspaces/>} />
+          </Route>
         </Route>
         
       </Routes>              

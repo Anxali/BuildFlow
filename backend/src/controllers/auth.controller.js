@@ -48,15 +48,16 @@ async function logoutUser(req,res){
 }
 
 async function getCurrentUser(req, res){
-    const user = req.user._id;
 
-    if(!user){
+    if(!req.user){
         return res.status(401).json({
             message: "Unauthorized"
         })
     }
 
-    res.status(200).json({
+    const user = req.user._id;
+
+    return res.status(200).json({
         message: "Current user fetched successfully", user
     })
 
