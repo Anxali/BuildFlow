@@ -58,7 +58,7 @@ async function getAllWorkspaces(req, res){
     })
 }
 
-async function getWorkspaceByName(req, res){
+async function getWorkspaceById(req, res){
     const workspaceId = req.params.id;
 
     if(!workspaceId){
@@ -77,7 +77,7 @@ async function getWorkspaceByName(req, res){
 
     return res.status(200).json({
         message: "Workspace fetched successfully",
-        workspace
+        workspace: workspace
     })
 }
 
@@ -140,7 +140,7 @@ module.exports = {
     createWorkspace,
     deleteWorkspace,
     getAllWorkspaces,
-    getWorkspaceByName,
+    getWorkspaceById,
     updateWorkspace,
     getMyWorkspaces
 }
