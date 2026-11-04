@@ -6,6 +6,7 @@ import Applayout from './layouts/AppLayout'
 import Workspaces from './pages/Workspaces'
 import Login from './pages/Login'
 import ProtectedRoute from './components/ProtectedRoute'
+import WorkspaceDetails from './pages/WorkspaceDetails'
 
 const App = () => {
   return (

@@ -7,7 +7,7 @@ router.put('/create', createWorkspace);
 router.delete('/delete/:name', deleteWorkspace);
 router.get('/getAll', getAllWorkspaces);
 router.get('/get', getMyWorkspaces);
-router.get('/get/:name', getWorkspaceByName);
+router.get('/get/:id', getWorkspaceByName);
 router.patch('/update/:id', updateWorkspace);
 
 module.exports = router;

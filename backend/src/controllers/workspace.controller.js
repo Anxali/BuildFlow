@@ -59,15 +59,15 @@ async function getAllWorkspaces(req, res){
 }
 
 async function getWorkspaceByName(req, res){
-    const workspaceName = req.params.name;
+    const workspaceId = req.params.id;
 
-    if(!workspaceName){
+    if(!workspaceId){
         return res.status(400).json({
-            message: "Name is required"
+            message: "Workspace ID is required"
         })
     }
 
-    const workspace = await workspaceModel.findOne({name: workspaceName});
+    const workspace = await workspaceModel.findOne({_id: workspaceId});
 
     if(!workspace){
         return res.status(404).json({
