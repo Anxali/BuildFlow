@@ -1,8 +1,10 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function WorkspaceDetails() {
 
+    const navigate = useNavigate();
     const { id } = useParams();
     const [workspace, setWorkspace] = useState(null);
     const [projects, setProjects] = useState([]);
@@ -61,6 +63,7 @@ function WorkspaceDetails() {
 
     return (
         <div>
+            <button onClick={()=>navigate(-1)}>back</button>
             <h1>Workspace Details</h1>
             <p>Workspace name: {workspace?.name}</p>
 
