@@ -17,7 +17,7 @@ const App = () => {
         <Route element={<Applayout/>}>
           <Route element={<ProtectedRoute/>}>
             <Route path="/workspaces" element={<Workspaces/>} />
-            <Route path="/workspace/:workspaceId" element={<WorkspaceDetails/>} />
+            <Route path="/workspace/:id" element={<WorkspaceDetails/>} />
           </Route>
         </Route>
         

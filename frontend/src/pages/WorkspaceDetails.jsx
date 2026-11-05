@@ -6,6 +6,37 @@ function WorkspaceDetails() {
     const { id } = useParams();
     const [workspace, setWorkspace] = useState(null);
     const [projects, setProjects] = useState([]);
+    const [showForm, setShowForm] = useState(false);
+    const [name, setName] = useState("");
+    const [description, setDescription] = useState("");
+
+    async function fetchProjects() {
+            const response = await fetch(`http://localhost:3000/api/project/get/workspace/${id}`, {credentials: "include"});
+            const data = await response.json();
+
+            if(!response.ok){
+                console.log(data.message);
+                return;
+            }
+
+            setProjects(data.projects);
+    }
+
+
+    async function handleProjectCreate() {
+        const response = await fetch(`http://localhost:3000/api/project/create`, {credentials: "include", method: "PUT", headers: {"Content-Type": "application/json"}, body: JSON.stringify({name:name, description:description, workspace: id})});
+        const data = await response.json();
+
+        if(!response.ok){
+            return console.log(data.message);
+        }
+
+        await fetchProjects();
+        setName("");
+        setDescription("");
+        setShowForm(false);
+
+    }
 
     useEffect(()=>{
         async function fetchWorkspaceDetails() {
@@ -21,27 +52,17 @@ function WorkspaceDetails() {
             setWorkspace(data.workspace);
             
         }
+
         fetchWorkspaceDetails();
-
-        async function fetchProjects() {
-            const response = await fetch(`http://localhost:3000/api/project/get/workspace/${id}`, {credentials: "include"});
-            const data = await response.json();
-
-            if(!response.ok){
-                console.log(data.message);
-                return;
-            }
-
-            setProjects(data.projects);
-        }
-
+ 
         fetchProjects();
+
     }, [id]);
 
     return (
         <div>
             <h1>Workspace Details</h1>
-            <p>Workspace id: {id}</p>
+            <p>Workspace name: {workspace?.name}</p>
 
             <h2> Projects </h2>
             { projects.length === 0 ? <p>No projects found!</p> :
@@ -54,6 +75,17 @@ function WorkspaceDetails() {
                 )
             })}
             
+            <button onClick={()=>{setShowForm(true)}}> +Create Project </button>
+
+            {showForm && (
+                <div>
+                    <h3>Create Project</h3>
+                    <input type="text" placeholder="Project Name" value={name} onChange={(e)=>setName(e.target.value)} />
+                    <textarea placeholder="Project Description" value={description} onChange={(e)=>setDescription(e.target.value)} />
+                    <button onClick={handleProjectCreate}>Create</button>
+                    <button onClick={()=>{setShowForm(false)}}>Cancel</button>
+                </div>
+            )}
         </div>
     )
 }
