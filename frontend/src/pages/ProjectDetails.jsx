@@ -8,6 +8,7 @@ function ProjectDetails() {
     const navigate = useNavigate();
 
     const [tasks, setTasks] = useState([]);
+    const [showForm, setShowForm] = useState(false);
 
     async function fetchTasks() {
         const response = await fetch(`http://localhost:3000/api/task/get/project/${id}`, {credentials: "include"})
@@ -34,6 +35,19 @@ function ProjectDetails() {
             {tasks.length === 0 ? <p>No tasks.</p> : tasks.map((task)=>{
                 return (<TaskCard key={task._id} task={task}/>)
             })}
+
+            <button onClick={()=>setShowForm(true)}>Create Task</button>
+
+            {showForm && (
+                <div>
+                    <h3>Create task</h3>
+                    <input type="text" placeholder="title"/>
+                    <textarea placeholder="description"/>
+                    <button>Create</button>
+                    <button onClick={()=>setShowForm(false)}>Cancel</button>
+                </div>
+          
+            )}
 
         </div>
     )
