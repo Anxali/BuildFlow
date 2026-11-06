@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import ProjectCard from "../components/ProjectCard";
 
 function WorkspaceDetails() {
 
@@ -23,7 +24,6 @@ function WorkspaceDetails() {
 
             setProjects(data.projects);
     }
-
 
     async function handleProjectCreate() {
         const response = await fetch(`http://localhost:3000/api/project/create`, {credentials: "include", method: "PUT", headers: {"Content-Type": "application/json"}, body: JSON.stringify({name:name, description:description, workspace: id})});
@@ -71,13 +71,10 @@ function WorkspaceDetails() {
             { projects.length === 0 ? <p>No projects found!</p> :
             projects.map((project)=>{
                 return (
-                    <div key={project._id}>
-                        <h3>{project.name}</h3>
-                        <p>{project.description}</p>
-                    </div>
+                    <ProjectCard key={project._id} project={project} />
                 )
-            })}
-            
+            })
+        }
             <button onClick={()=>{setShowForm(true)}}> +Create Project </button>
 
             {showForm && (

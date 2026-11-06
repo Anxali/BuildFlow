@@ -124,7 +124,8 @@ async function deleteComment(req,res){
 async function getAllTask(req,res){
     const allTasks = await taskSchema.find();
     return res.status(200).json({
-        message: 'all tasks fetched successfully', allTasks
+        message: 'all tasks fetched successfully', 
+        tasks: allTasks
     })
 }
 
@@ -139,15 +140,10 @@ async function getTaskByProject(req,res){
 
     const tasks = await taskSchema.find({project: projectId});
 
-    if(tasks.length == 0){
-        return res.status(200).json({
-            message: 'No task found'
-        })
-    }
-
     return res.status(200).json({
-        message: 'tasks fetched successfully', tasks
-    })
+        message: tasks.length === 0 ? 'No task found' : 'Tasks fetched successfully',
+        tasks: tasks
+    });
 }
 
 async function getTaskById(req,res){
