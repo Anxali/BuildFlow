@@ -9,6 +9,8 @@ function ProjectDetails() {
 
     const [tasks, setTasks] = useState([]);
     const [showForm, setShowForm] = useState(false);
+    const [title, setTitle] = useState("");
+    const [description, setDecription] = useState("");
 
     async function fetchTasks() {
         const response = await fetch(`http://localhost:3000/api/task/get/project/${id}`, {credentials: "include"})
@@ -20,6 +22,22 @@ function ProjectDetails() {
         }
 
         setTasks(data.tasks);
+    }
+
+    async function handleTaskCreation(){
+        const response = await fetch(`http://localhost:3000/api/task/create`, {credentials: "include", method:"PUT", headers: {"Content-Type": "application/json"}, body: JSON.stringify({title:title, description:description, project:id})});
+        const data = await response.json();
+
+        console.log(data.tasks);
+        if(!response.ok){
+            console.log(data.message);
+        }
+
+        setShowForm(false);
+        setTitle("");
+        setDecription("");
+
+        await fetchTasks();
     }
 
     useEffect(()=>{fetchTasks()},[id])
@@ -41,9 +59,9 @@ function ProjectDetails() {
             {showForm && (
                 <div>
                     <h3>Create task</h3>
-                    <input type="text" placeholder="title"/>
-                    <textarea placeholder="description"/>
-                    <button>Create</button>
+                    <input type="text" placeholder="title" value={title} onChange={(e)=>setTitle(e.target.value)}/>
+                    <textarea placeholder="description" value={description} onChange={(e)=>setDecription(e.target.value)}/>
+                    <button onClick={handleTaskCreation}>Create</button>
                     <button onClick={()=>setShowForm(false)}>Cancel</button>
                 </div>
           

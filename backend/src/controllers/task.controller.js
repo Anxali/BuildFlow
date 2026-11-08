@@ -26,7 +26,7 @@ async function createTask(req,res){
 
     return res.status(200).json({
         message: 'Task created successfully',
-        task
+        task: task
     })
 }
 
