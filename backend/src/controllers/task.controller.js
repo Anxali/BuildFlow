@@ -155,7 +155,7 @@ async function getTaskById(req,res){
         })
     }
 
-    const task = await taskSchema({_id: taskId})
+    const task = await taskSchema.findOne({_id: taskId})
     
     if(!task){
         return res.status(200).json({
@@ -164,7 +164,7 @@ async function getTaskById(req,res){
     }
 
     return res.status(200).json({
-        message: 'task fetched successfully', task
+        message: 'task fetched successfully', task:task
     })
 
 }

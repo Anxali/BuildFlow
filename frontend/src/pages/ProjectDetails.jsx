@@ -33,11 +33,12 @@ function ProjectDetails() {
             console.log(data.message);
         }
 
+        await fetchTasks();
         setShowForm(false);
         setTitle("");
         setDecription("");
 
-        await fetchTasks();
+        
     }
 
     useEffect(()=>{fetchTasks()},[id])
