@@ -14,11 +14,17 @@ function TaskDetails() {
 
     }
 
+    async function handleAddComment(){}
+
+    async function handleUpdateStatus(){}
+
+    async function handleEditTask(){}
+
+    async function handleDeleteTask(){}
+
     useEffect(()=>{
         fetchTaskDetails();
     },[id])
-
-    
 
     return(
         <>
@@ -26,12 +32,18 @@ function TaskDetails() {
             <h1>Task Details</h1>
             <h3>{task.title}</h3>
             <p>{task.description}</p>
-            <p>{task.assignee}</p>
-            <p>{task.comments}</p>
-            <p>{task.status}</p>
-            <p>{task.createdBy}</p>
-            <p>{task.createdAt}</p>
-            <p>{task.priority}</p>
+            <p>Assignee: {task.assignee}</p>
+            <p>Comments: {task.comments}</p>
+            <button>add comments</button>
+            <p>Status: {task.status}</p>
+            <button>update status</button>
+            <p>Created By: {task.createdBy}</p>
+            <p>Created At: {task.createdAt}</p>
+            <p>Priority: {task.priority}</p>
+
+            <button>edit task</button>
+
+            <button>DELETE task</button>
             
         </>
     )
