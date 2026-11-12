@@ -17,8 +17,14 @@ function TaskDetails() {
 
     async function handleAddComment(){}
 
-    async function handleUpdateStatus(){
+    async function handleUpdateStatus(newStatus){
+        const response = await fetch(`http://localhost:3000/api/task/update/${id}`, {method:"PATCH", headers:{'Content-type':'application/json'}, body:JSON.stringify({status: newStatus}), credentials:"include"});
+        const data = await response.json();
+        if(!response.ok){
+            console.log(data.message); return;
+        }
 
+        setTask(data.task);
     }
 
     async function handleEditTask(){}
@@ -38,13 +44,14 @@ function TaskDetails() {
             <p>Assignee: {task.assignee}</p>
             <p>Comments: {task.comments}</p>
             <button onClick={handleAddComment}>add comments</button>
-            <p>Status: {task.status}</p>
+            <p>Status: {task?.status}</p>
             <button onClick={()=>setShowStatusDropdown(!showStatusDropdown)}>update status</button>
             {showStatusDropdown && 
                 <div>{statuses.map((status)=>{
-                    return <button key={status}>{status}</button>
+                    return <><button key={status} onClick={()=>{setShowStatusDropdown(false); handleUpdateStatus(status);}}>{status}</button></>
                 })}</div>
             }
+ 
             <p>Created By: {task.createdBy}</p>
             <p>Created At: {task.createdAt}</p>
             <p>Priority: {task.priority}</p>
