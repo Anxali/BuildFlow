@@ -71,7 +71,11 @@ function TaskDetails() {
                     <input value={title} onChange={(e)=>setTitle(e.target.value)} />
                     <textarea value={description} onChange={(e)=>setDescription(e.target.value)}/>
                     <input value={assignee} onChange={(e) => setAssignee(e.target.value)}/>
-                    <input value={priority} onChange={(e) => setPriority(e.target.value)}/>
+                    <select value={priority} onChange={(e) => setPriority(e.target.value)}>
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                    </select>
                     <button onClick={handleSaveEdit}>save</button> <button onClick={cancelEdit}>cancel</button>
                 </>) : 
             
