@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 function TaskDetails() {
 
@@ -14,6 +14,7 @@ function TaskDetails() {
     const [showCommentForm, setShowCommentForm] = useState(false); 
     const [commentText, setCommentText] = useState("");
     const statuses = ["ToDo", "In Progress", "Done", "Blocked", "Cancelled", "Backlog"];
+    const navigate = useNavigate();
 
     async function fetchTaskDetails(){
         const response = await fetch(`http://localhost:3000/api/task/get/${id}`, {credentials:"include"})
@@ -71,7 +72,19 @@ function TaskDetails() {
         setIsEditing(false);
     }
 
-    async function handleDeleteTask(){}
+    async function handleDeleteTask(){
+        const confirmed = window.confirm("Are you sure you want to delete this task?");
+        if (!confirmed) return;
+        
+        const response=await fetch(`http://localhost:3000/api/task/delete/${id}`, {method:"DELETE", credentials:"include"})
+        const data = await response.json()
+
+        if(!response.ok){
+            return console.log(data.message)
+        }
+
+        navigate(-1)
+    }
 
     useEffect(()=>{
         fetchTaskDetails();

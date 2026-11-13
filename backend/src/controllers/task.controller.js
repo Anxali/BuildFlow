@@ -39,7 +39,7 @@ async function deleteTask(req,res){
         })
     }
 
-    const task = taskModel.findByIdAndDelete(taskId);
+    const task = await taskModel.findByIdAndDelete(taskId);
 
     if(!task){
         return res.status(400).json({
