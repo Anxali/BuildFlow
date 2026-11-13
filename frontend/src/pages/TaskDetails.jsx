@@ -11,6 +11,8 @@ function TaskDetails() {
     const [description, setDescription] = useState("");
     const [assignee, setAssignee] = useState("");
     const [priority, setPriority] = useState("");
+    const [showCommentForm, setShowCommentForm] = useState(false); 
+    const [commentText, setCommentText] = useState("");
     const statuses = ["ToDo", "In Progress", "Done", "Blocked", "Cancelled", "Backlog"];
 
     async function fetchTaskDetails(){
@@ -20,7 +22,19 @@ function TaskDetails() {
         setTask(data.task);
     }
 
-    async function handleAddComment(){}
+    async function handleAddComment(){
+        const response = await fetch(`http://localhost:3000/api/task/comment/${id}`, {method:'PUT', headers:{'Content-type':'application/json'},body:JSON.stringify({text:commentText}), credentials:"include"});
+        const data = await response.json();
+
+        if(!response.ok){
+            return console.log(data.message);
+        }
+
+        setCommentText("")
+        setShowCommentForm(false)
+        setTask(prevTask=>({...prevTask, comments: data.comments}))
+
+    }
 
     async function handleUpdateStatus(newStatus){
         const response = await fetch(`http://localhost:3000/api/task/update/${id}`, {method:"PATCH", headers:{'Content-type':'application/json'}, body:JSON.stringify({status: newStatus}), credentials:"include"});
@@ -86,8 +100,17 @@ function TaskDetails() {
                     <p>Priority: {task.priority}</p>
                 </>)}
             
-            <p>Comments: {task.comments}</p>
-            <button onClick={handleAddComment}>add comments</button>
+            <h3>Comments: </h3>
+            <ul>
+                {(task.comments ?? []).map((comment)=>(
+                    <li key={comment._id}>{comment.text}</li>
+                ))}
+            </ul>
+            <button onClick={()=>{setShowCommentForm(true)}}>add comments</button>
+            {showCommentForm && <div>
+                    <textarea value={commentText} onChange={(e)=>{setCommentText(e.target.value)}} placeholder="Enter a comment"/>
+                    <button onClick={handleAddComment}>post</button><button onClick={()=>{setShowCommentForm(false)}}>cancel</button>
+                </div>}
             <p>Status: {task?.status}</p>
             <button onClick={()=>setShowStatusDropdown(!showStatusDropdown)}>update status</button>
             {showStatusDropdown && 
