@@ -142,6 +142,29 @@ async function getProjectByWorkspace(req, res){
 
 }
 
+async function getProjectById(req,res){
+    const projectId = req.params.id;
+    if(!projectId){
+        return res.status(400).json({
+            message:"project id not found"
+        })
+    }
+
+    const project = await projectModel.findById(projectId);
+
+    if(!project){
+        return res.status(400).json({
+            message: "Project not found"
+        })
+    }
+
+    return res.status(200).json({
+        message: "Project fetched successfully",
+        project: project
+    })
+
+}
+
 module.exports = {
     createProject,
     deleteProject,
@@ -149,5 +172,6 @@ module.exports = {
     getAllProjects,
     getProjectByName,
     getMyProjects,
-    getProjectByWorkspace
+    getProjectByWorkspace,
+    getProjectById
 }

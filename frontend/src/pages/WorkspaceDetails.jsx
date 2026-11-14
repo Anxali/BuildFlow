@@ -115,7 +115,7 @@ function WorkspaceDetails() {
                 </div>
             )}
 
-            <button onClick={startEditing}>Edit Workspace</button><button>Delete workspace</button>
+            <button onClick={startEditing}>Edit Workspace</button><button>Archive workspace</button>
         </div>
     )
 }

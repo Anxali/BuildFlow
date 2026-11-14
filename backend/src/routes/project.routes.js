@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { createProject, deleteProject, updateProject, getAllProjects, getMyProjects, getProjectByName, getProjectByWorkspace} = require('../controllers/project.controller');
+const { createProject, deleteProject, updateProject, getAllProjects, getMyProjects, getProjectByName, getProjectByWorkspace, getProjectById} = require('../controllers/project.controller');
 
 router.put('/create', createProject);
 router.delete('/delete/:name', deleteProject);
@@ -9,5 +9,6 @@ router.get('/get', getMyProjects);
 router.get('/get/:name', getProjectByName);
 router.get('/get/workspace/:workspaceId', getProjectByWorkspace);
 router.patch('/update/:id', updateProject);
+router.get('/get/id/:id',getProjectById);
 
 module.exports = router;
