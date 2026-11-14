@@ -86,6 +86,8 @@ function WorkspaceDetails() {
                     <button onClick={()=>{setShowForm(false)}}>Cancel</button>
                 </div>
             )}
+
+            <button>Edit Workspace</button><button>Delete workspace</button>
         </div>
     )
 }

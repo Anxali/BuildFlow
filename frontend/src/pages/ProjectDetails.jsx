@@ -67,6 +67,7 @@ function ProjectDetails() {
                 </div>
           
             )}
+            <button>Edit project</button><button>Delete project</button>
 
         </div>
     )
