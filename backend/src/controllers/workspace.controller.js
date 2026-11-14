@@ -90,15 +90,17 @@ async function updateWorkspace(req, res){
         })
     }
 
-    if(req.user._id.toString() !== req.body.owner){
+    const workspace = await workspaceModel.findById(workspaceId);
+
+    if(workspace.owner.toString() !== req.user._id.toString()){
         return res.status(403).json({
             message: "You are not authorized to update this workspace"
         })
     }
 
-    const workspace = await workspaceModel.findOneAndUpdate({_id: workspaceId}, req.body, {new: true, runValidators: true});
+    const updateWorkspace = await workspaceModel.findOneAndUpdate({_id: workspaceId}, req.body, {new: true, runValidators: true});
 
-    if(!workspace){
+    if(!updateWorkspace){
         return res.status(404).json({
             message: "Workspace not found"
         })
@@ -106,7 +108,7 @@ async function updateWorkspace(req, res){
     
     return res.status(200).json({
         message: "Workspace updated successfully",
-        workspace
+        workspace: updateWorkspace
     })
 
 }

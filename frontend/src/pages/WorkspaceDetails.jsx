@@ -12,6 +12,9 @@ function WorkspaceDetails() {
     const [showForm, setShowForm] = useState(false);
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
+    const [isEditing, setIsEditing] = useState(false);
+    const [workspaceName, setWorkspaceName] = useState("");
+    const [workspaceDescription, setWorkspaceDescription] = useState("");
 
     async function fetchProjects() {
             const response = await fetch(`http://localhost:3000/api/project/get/workspace/${id}`, {credentials: "include"});
@@ -40,6 +43,25 @@ function WorkspaceDetails() {
 
     }
 
+    function startEditing() {
+        setWorkspaceName(workspace?.name)
+        setWorkspaceDescription(workspace?.description)
+        setIsEditing(true)
+    }
+
+    async function handleSaveEdit() {
+        const response = await fetch(`http://localhost:3000/api/workspace/update/${id}`, {method:"PATCH", headers:{"Content-Type":"application/json"}, body:JSON.stringify({name: workspaceName, description: workspaceDescription}), credentials:"include"})
+        const data = await response.json();
+
+        if(!response.ok){
+            return console.log(data.message);
+        }
+
+        setWorkspace(data.workspace)
+        setIsEditing(false)
+
+    }
+
     useEffect(()=>{
         async function fetchWorkspaceDetails() {
             const response = await fetch(`http://localhost:3000/api/workspace/get/${id}`, {credentials: "include"});
@@ -65,7 +87,13 @@ function WorkspaceDetails() {
         <div>
             <button onClick={()=>navigate(-1)}>back</button>
             <h1>Workspace Details</h1>
-            <p>Workspace name: {workspace?.name}</p>
+
+            {isEditing ? (<>
+            <input type="text" value={workspaceName} onChange={(e)=>{setWorkspaceName(e.target.value)}} />
+            <textarea value={workspaceDescription} onChange={(e)=>{setWorkspaceDescription(e.target.value)}}></textarea>
+            <button onClick={handleSaveEdit}>save</button><button onClick={()=>{setIsEditing(false)}}>cancel</button>
+            </>) : (<><p>Workspace name: {workspace?.name}</p>
+            <p>Workspace description: {workspace?.description}</p></>) }
 
             <h2> Projects </h2>
             { projects.length === 0 ? <p>No projects found!</p> :
@@ -87,7 +115,7 @@ function WorkspaceDetails() {
                 </div>
             )}
 
-            <button>Edit Workspace</button><button>Delete workspace</button>
+            <button onClick={startEditing}>Edit Workspace</button><button>Delete workspace</button>
         </div>
     )
 }
