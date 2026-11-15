@@ -6,6 +6,8 @@ import ProtectedRoute from './components/ProtectedRoute'
 import WorkspaceDetails from './pages/WorkspaceDetails'
 import ProjectDetails from './pages/ProjectDetails'
 import TaskDetails from './pages/TaskDetails'
+import "./styles/variables.css";
+import "./App.css"
 
 const App = () => {
   return (

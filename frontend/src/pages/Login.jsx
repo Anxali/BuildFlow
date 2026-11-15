@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "../styles/variables.css"
+import "./Login.css"
 
 function Login() {
 
@@ -28,13 +30,17 @@ function Login() {
     }
 
     return (
-        <div>
-            <h1>Login to BuildFlow</h1>
-            <form onSubmit={handleLogin}>
-                <input type="text" placeholder="email" value={email} onChange={(e)=>setEmail(e.target.value)}/>
-                <input type="password" placeholder="password"  value={password} onChange={(e)=>setPassword(e.target.value)}/>
-                <button type="submit">Login</button>
-            </form>
+        <div className="login-container">
+            <div className="login-form-container">
+                <div>
+                <h1 className="login-heading">Login to BuildFlow</h1>
+                <form className="login-form" onSubmit={handleLogin}>
+                    <input type="text" placeholder="Email" value={email} onChange={(e)=>setEmail(e.target.value)}/>
+                    <input type="password" placeholder="Password"  value={password} onChange={(e)=>setPassword(e.target.value)}/>
+                    <button type="submit">Login</button>
+                </form>
+                </div>
+            </div>
         </div>
     )
 }
