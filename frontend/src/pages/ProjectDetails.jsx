@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import TaskCard from "../components/TaskCard";
+import "../pages/ProjectDetails.css"
 
 function ProjectDetails() {
 
@@ -81,7 +82,9 @@ function ProjectDetails() {
     useEffect(()=>{fetchTasks()},[id])
 
     return (
-        <div>
+
+        <div className="project-details-outer-container">
+        <div className="project-details-container">
 
             <button onClick={()=>navigate(-1)}>back</button>
             <h1>Project Details</h1>
@@ -90,8 +93,8 @@ function ProjectDetails() {
                 <input type="text" value={projectName} onChange={(e)=>setProjectName(e.target.value)} />
                 <textarea value={projectDescription} onChange={(e)=>setProjectDescription(e.target.value)}></textarea>
                 <button onClick={handleSaveEdit}>save</button><button onClick={()=>{setIsEditing(false)}}>cancel</button>
-            </>) : (<><h4>project name: {project?.name}</h4>
-            <h4>project description: {project?.description}</h4></>)}
+            </>) : (<div className="project-details"><h4>project name: {project?.name}</h4>
+            <h4>project description: {project?.description}</h4></div>)}
             
 
             <h3>Tasks</h3>
@@ -114,6 +117,7 @@ function ProjectDetails() {
             )}
             <button onClick={startEditing}>Edit project</button><button>Archive project</button>
 
+        </div>
         </div>
     )
 

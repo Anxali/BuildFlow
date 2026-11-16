@@ -1,0 +1,22 @@
+.project-details-outer-container{
+    display: flex;
+    
+    justify-content: center;
+}
+
+.project-details-container{
+    display: flex;
+    background-color: var(--green-one);
+    justify-content: center;
+    width: 50%;
+    align-items: center;
+    border-radius: 1rem;
+    padding: 2rem;
+    flex-direction: column;
+    gap: 1rem;   
+}
+
+.project-details{
+    font-size: .7rem;
+    color: azure;
+}
