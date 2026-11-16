@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ProjectCard from "../components/ProjectCard";
+import "../pages/WorkspaceDetails.css"
 
 function WorkspaceDetails() {
 
@@ -84,6 +85,8 @@ function WorkspaceDetails() {
     }, [id]);
 
     return (
+        <div className="workspace-details-outer-container">
+        <div className="workspace-details-container">
         <div>
             <button onClick={()=>navigate(-1)}>back</button>
             <h1>Workspace Details</h1>
@@ -92,9 +95,10 @@ function WorkspaceDetails() {
             <input type="text" value={workspaceName} onChange={(e)=>{setWorkspaceName(e.target.value)}} />
             <textarea value={workspaceDescription} onChange={(e)=>{setWorkspaceDescription(e.target.value)}}></textarea>
             <button onClick={handleSaveEdit}>save</button><button onClick={()=>{setIsEditing(false)}}>cancel</button>
-            </>) : (<><p>Workspace name: {workspace?.name}</p>
-            <p>Workspace description: {workspace?.description}</p></>) }
-
+            </>) : (<div className="workspace-details"><p>Workspace name: {workspace?.name}</p>
+            <p>Workspace description: {workspace?.description}</p></div>) }
+            
+            <div className="project-card-container">
             <h2> Projects </h2>
             { projects.length === 0 ? <p>No projects found!</p> :
             projects.map((project)=>{
@@ -102,7 +106,9 @@ function WorkspaceDetails() {
                     <ProjectCard key={project._id} project={project} />
                 )
             })
-        }
+            }
+            </div>
+
             <button onClick={()=>{setShowForm(true)}}> +Create Project </button>
 
             {showForm && (
@@ -115,7 +121,9 @@ function WorkspaceDetails() {
                 </div>
             )}
 
-            <button onClick={startEditing}>Edit Workspace</button><button>Archive workspace</button>
+            <div className="workspace-edit-buttons"><button onClick={startEditing}>Edit Workspace</button><button>Archive workspace</button></div>
+        </div>
+        </div>
         </div>
     )
 }
