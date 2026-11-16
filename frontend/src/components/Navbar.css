@@ -1,0 +1,10 @@
+.nav-container{
+    display: flex;
+    color: aliceblue;
+    justify-content: space-around;
+    padding: 2rem;
+}
+
+.heading{
+    font-family: Arial, Helvetica, sans-serif;
+}

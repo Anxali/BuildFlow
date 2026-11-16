@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-
+import "../components/Navbar.css"
 
 function Navbar(){
     const navigate = useNavigate();
@@ -15,8 +15,8 @@ function Navbar(){
         navigate("/login");
     }
     return (
-        <nav>
-            <h2>BuildFlow</h2>
+        <nav className="nav-container">
+            <h2 className="heading">BuildFlow</h2>
             <button onClick={handleLogout}>Logout</button>
         </nav>
     );

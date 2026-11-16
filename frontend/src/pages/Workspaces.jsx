@@ -1,5 +1,6 @@
 import WorkspaceCard from "../components/WorkspaceCard";
 import { useState, useEffect } from "react";
+import "../pages/Workspaces.css"
 
 function Workspaces() {
 
@@ -31,24 +32,27 @@ function Workspaces() {
     }
 
     return (
-        <div>
-            <h1>My Workspaces</h1>
+        <div className="outer-container">
+            <div className="main-container">
+                <h1>My Workspaces</h1>
 
-            <button onClick={()=>{setShowForm(true);}}> + Create New Workspace </button>
+                <button onClick={()=>{setShowForm(true);}}>+ Create New </button>
 
-            {showForm && (
-                <div>
-                    <h3>Create Workspace</h3>
-                    <input type="text" placeholder="Workspace Name" value={name} onChange={(e)=>{setName(e.target.value)}}  />
-                    <textarea placeholder="Workspace Description" value={description} onChange={(e)=>{setDescription(e.target.value)}} />
-                    <button onClick={handleCreateWorkspace}>Create</button>
+                {showForm && (
+                    <div className="create-form">
+                        <h3>Create Workspace</h3>
+                        <input type="text" placeholder="Workspace Name" value={name} onChange={(e)=>{setName(e.target.value)}}  />
+                        <textarea placeholder="Workspace Description" value={description} onChange={(e)=>{setDescription(e.target.value)}} />
+                        <button onClick={handleCreateWorkspace}>Create</button><button onClick={()=>{setShowForm(false)}}>Cancel</button>
+                    </div>
+                )}
+                <div className="workspace-card-container">
+                {workspaces.map((workspace)=>(
+                    <WorkspaceCard key={workspace._id}
+                    workspace={workspace} />
+                ))}
                 </div>
-            )}
-
-            {workspaces.map((workspace)=>(
-                <WorkspaceCard key={workspace._id}
-                workspace={workspace} />
-            ))}
+            </div>
         </div>
     );
 }
