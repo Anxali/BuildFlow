@@ -1,6 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import "../components/WorkspaceCard.css"
-
 
 function WorkspaceCard({workspace}){
 

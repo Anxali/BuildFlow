@@ -1,0 +1,127 @@
+.app-layout {
+  min-height: 100vh;
+}
+
+.app-workspace {
+  display: grid;
+  grid-template-columns: 224px minmax(0, 1fr);
+  min-height: calc(100vh - 66px);
+}
+
+.app-sidebar {
+  position: sticky;
+  top: 66px;
+  align-self: start;
+  min-width: 0;
+  min-height: calc(100vh - 66px);
+  padding: 1.5rem 0.9rem;
+  border-right: 1px solid var(--border-soft);
+  background: rgba(9, 20, 19, 0.32);
+}
+
+.sidebar-eyebrow {
+  margin: 0.2rem 0.65rem 0.8rem;
+  color: rgba(167, 199, 182, 0.68);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.sidebar-nav {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: 0.75rem;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid transparent;
+  border-radius: 0.65rem;
+  color: var(--muted-green);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease;
+}
+
+.sidebar-link:hover,
+.sidebar-link.active {
+  border-color: rgba(176, 228, 204, 0.12);
+  background: rgba(64, 138, 113, 0.18);
+  color: var(--lightest-green);
+}
+
+.sidebar-link-icon {
+  position: relative;
+  flex: 0 0 1rem;
+  width: 1rem;
+  height: 1rem;
+  border: 1.5px solid currentColor;
+  border-radius: 0.25rem;
+}
+
+.sidebar-link-icon::before,
+.sidebar-link-icon::after {
+  position: absolute;
+  background: currentColor;
+  content: "";
+}
+
+.sidebar-link-icon::before {
+  top: 0.25rem;
+  left: 0;
+  width: 100%;
+  height: 1px;
+}
+
+.sidebar-link-icon::after {
+  top: 0;
+  left: 0.3rem;
+  width: 1px;
+  height: 100%;
+}
+
+.app-content {
+  min-width: 0;
+  width: 100%;
+  padding: clamp(1.25rem, 3vw, 2.5rem);
+}
+
+@media (max-width: 760px) {
+  .app-workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .app-sidebar {
+    position: static;
+    min-height: 0;
+    padding: 0.7rem 1rem;
+    border-right: 0;
+    border-bottom: 1px solid var(--border-soft);
+  }
+
+  .sidebar-eyebrow {
+    display: none;
+  }
+
+  .sidebar-nav {
+    display: flex;
+  }
+
+  .sidebar-link {
+    width: fit-content;
+  }
+
+  .app-content {
+    padding: 1.25rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .app-content {
+    padding: 0.85rem;
+  }
+}

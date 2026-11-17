@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import "./TaskDetails.css";
 
 function TaskDetails() {
 
@@ -91,7 +92,8 @@ function TaskDetails() {
     },[id])
 
     return(
-        <>
+        <div className="task-details-outer-container">
+        <div className="task-details-container">
 
             <h1>Task Details</h1>
             {isEditing ? (<>
@@ -110,7 +112,7 @@ function TaskDetails() {
                     <h3>{task.title}</h3>
                     <p>{task.description}</p>
                     <p>Assignee: {task.assignee}</p>
-                    <p>Priority: {task.priority}</p>
+                    <p className="task-priority">Priority: {task.priority}</p>
                 </>)}
             
             <h3>Comments: </h3>
@@ -124,10 +126,10 @@ function TaskDetails() {
                     <textarea value={commentText} onChange={(e)=>{setCommentText(e.target.value)}} placeholder="Enter a comment"/>
                     <button onClick={handleAddComment}>post</button><button onClick={()=>{setShowCommentForm(false)}}>cancel</button>
                 </div>}
-            <p>Status: {task?.status}</p>
+            <p className="task-status">Status: {task?.status}</p>
             <button onClick={()=>setShowStatusDropdown(!showStatusDropdown)}>update status</button>
             {showStatusDropdown && 
-                <div>{statuses.map((status)=>{
+                <div className="task-status-options">{statuses.map((status)=>{
                     return <button key={status} onClick={()=>{setShowStatusDropdown(false); handleUpdateStatus(status);}}>{status}</button>
                 })}</div>
             }
@@ -140,7 +142,8 @@ function TaskDetails() {
 
             <button onClick={handleDeleteTask}>DELETE task</button>
             
-        </>
+        </div>
+        </div>
     )
 }
 
