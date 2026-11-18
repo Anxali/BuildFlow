@@ -35,9 +35,9 @@ function Login() {
                 <div>
                 <h1 className="login-heading">Login to BuildFlow</h1>
                 <form className="login-form" onSubmit={handleLogin}>
-                    <input type="text" placeholder="Email" value={email} onChange={(e)=>setEmail(e.target.value)}/>
-                    <input type="password" placeholder="Password"  value={password} onChange={(e)=>setPassword(e.target.value)}/>
-                    <button type="submit">Login</button>
+                    <input data-testid="input-email" type="text" placeholder="Email" value={email} onChange={(e)=>setEmail(e.target.value)}/>
+                    <input data-testid="input-password" type="password" placeholder="Password"  value={password} onChange={(e)=>setPassword(e.target.value)}/>
+                    <button data-testid="button-login" type="submit">Login</button>
                 </form>
                 </div>
             </div>
