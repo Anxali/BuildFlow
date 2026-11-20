@@ -1,5 +1,5 @@
 class LoginPage {
-    contructor(page){
+    constructor(page){
         this.page = page;
         this.input_email = page.getByTestId('input-email');
         this.input_password = page.getByTestId('input-password');
@@ -7,15 +7,18 @@ class LoginPage {
     }
 
     async enterEmail(email){
-        this.input_email.fill(email);
+        await this.input_email.fill(email);
+        console.log("entered email")
     }
 
     async enterPassword(password){
-        this.input_password.fill(password);
+        await this.input_password.fill(password);
+        console.log("entered password")
     }
 
     async clickLogin(){
-        this.btn_login.click();
+        await this.btn_login.click();
+        console.log("clicked login button")
     }
 }
 
