@@ -1,3 +1,7 @@
-class ProjectPage{}
+class ProjectPage{
+    constructor(page){
+        
+    }
+}
 
 export default ProjectPage

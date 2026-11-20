@@ -34,3 +34,6 @@ coverage/
 # Editor files
 .vscode/
 .idea/
+
+#secrets
+secrets.json
